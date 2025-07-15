@@ -2,11 +2,13 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
   const navStyle = {
-    padding: '10px',
-    backgroundColor: '#333',
-    display: 'flex',
-    gap: '20px',
-  };
+  padding: '10px',
+  backgroundColor: '#333',
+  display: 'flex',
+  gap: '20px',
+  justifyContent: 'center', // <-- add this line
+};
+
 
   const linkStyle = {
     color: 'white',
