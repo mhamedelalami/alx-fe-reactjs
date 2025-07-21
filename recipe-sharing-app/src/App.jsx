@@ -1,16 +1,18 @@
-import AddRecipeForm from './components/AddRecipeForm';
-import RecipeList from './components/RecipeList';
-import Snackbar from './components/Snackbar';
+// src/App.jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import RecipeList from './components/RecipeList'; // You may already have this
+import RecipeDetails from './components/RecipeDetails';
 
-function App() {
+const App = () => {
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold mb-6">Recipe Manager</h1>
-      <AddRecipeForm />
-      <RecipeList />
-      <Snackbar />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<RecipeList />} />
+        <Route path="/recipe/:id" element={<RecipeDetails />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
