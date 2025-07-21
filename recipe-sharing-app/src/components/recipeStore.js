@@ -3,6 +3,10 @@ import { create } from 'zustand';
 const useRecipeStore = create((set) => ({
   recipes: [],
 
+  // Search term for filtering
+  searchTerm: '',
+  setSearchTerm: (term) => set({ searchTerm: term }),
+
   addRecipe: (recipe) =>
     set((state) => ({
       recipes: [...state.recipes, recipe],
@@ -18,7 +22,7 @@ const useRecipeStore = create((set) => ({
   deleteRecipe: (recipeId) =>
     set((state) => ({
       recipes: state.recipes.filter((recipe) => recipe.id !== recipeId),
-      favorites: state.favorites.filter((id) => id !== recipeId), // Also remove from favorites if deleted
+      favorites: state.favorites.filter((id) => id !== recipeId), // Remove from favorites if deleted
     })),
 
   favorites: [],
@@ -39,7 +43,7 @@ const useRecipeStore = create((set) => ({
 
   generateRecommendations: () =>
     set((state) => {
-      // Simple mock: recommend recipes that are NOT in favorites but share the same first letter as any favorite recipe
+      // Recommend recipes not in favorites sharing first letter with any favorite
       const favoriteRecipes = state.recipes.filter((r) =>
         state.favorites.includes(r.id)
       );
