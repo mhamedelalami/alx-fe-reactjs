@@ -1,28 +1,29 @@
-import useRecipeStore from "./recipeStore";
+import React from 'react';
+import useRecipeStore from '../store/recipeStore';
 
 const RecipeList = () => {
   const recipes = useRecipeStore((state) => state.recipes);
+  const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
+  const searchTerm = useRecipeStore((state) => state.searchTerm);
+
+  // If there is no search term or filteredRecipes is empty, show all recipes
+  const displayedRecipes =
+    searchTerm.trim() === '' || filteredRecipes.length === 0
+      ? recipes
+      : filteredRecipes;
+
+  if (displayedRecipes.length === 0) {
+    return <p>No recipes found.</p>;
+  }
 
   return (
     <div>
-      <h2>Recipes</h2>
-      {recipes.length === 0 ? (
-        <p>No recipes yet.</p>
-      ) : (
-        recipes.map((recipe) => (
-          <div
-            key={recipe.id}
-            style={{
-              border: "1px solid #ccc",
-              padding: "10px",
-              margin: "10px 0",
-            }}
-          >
-            <h3>{recipe.title}</h3>
-            <p>{recipe.description}</p>
-          </div>
-        ))
-      )}
+      {displayedRecipes.map((recipe) => (
+        <div key={recipe.id} className="border p-4 mb-4 rounded shadow">
+          <h3 className="text-xl font-semibold">{recipe.title}</h3>
+          <p>{recipe.description}</p>
+        </div>
+      ))}
     </div>
   );
 };
