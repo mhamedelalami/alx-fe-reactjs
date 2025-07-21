@@ -2,8 +2,6 @@ import { create } from 'zustand';
 
 const useRecipeStore = create((set, get) => ({
   recipes: [],
-  searchTerm: '',
-  filteredRecipes: [],
 
   addRecipe: (recipe) =>
     set((state) => ({
@@ -20,18 +18,44 @@ const useRecipeStore = create((set, get) => ({
   deleteRecipe: (recipeId) =>
     set((state) => ({
       recipes: state.recipes.filter((recipe) => recipe.id !== recipeId),
+      favorites: state.favorites.filter((id) => id !== recipeId), // Also remove from favorites if deleted
     })),
 
-  setSearchTerm: (term) =>
-    set({ searchTerm: term }, false, 'setSearchTerm'),
+  favorites: [],
 
-  filterRecipes: () => {
-    const { recipes, searchTerm } = get();
-    const filtered = recipes.filter((recipe) =>
-      recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    set({ filteredRecipes: filtered });
-  },
+  addFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.includes(recipeId)
+        ? state.favorites
+        : [...state.favorites, recipeId],
+    })),
+
+  removeFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.filter((id) => id !== recipeId),
+    })),
+
+  recommendations: [],
+
+  generateRecommendations: () =>
+    set((state) => {
+      // Simple mock: recommend recipes that are NOT in favorites but share the same first letter as any favorite recipe
+      const favoriteRecipes = state.recipes.filter((r) =>
+        state.favorites.includes(r.id)
+      );
+
+      if (favoriteRecipes.length === 0) return { recommendations: [] };
+
+      const recommended = state.recipes.filter(
+        (recipe) =>
+          !state.favorites.includes(recipe.id) &&
+          favoriteRecipes.some(
+            (fav) => fav.title[0].toLowerCase() === recipe.title[0].toLowerCase()
+          )
+      );
+
+      return { recommendations: recommended };
+    }),
 }));
 
 export default useRecipeStore;
