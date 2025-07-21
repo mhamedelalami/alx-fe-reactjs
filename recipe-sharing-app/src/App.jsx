@@ -1,26 +1,22 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import RecipeList from './components/RecipeList';
-import FavoritesList from './components/FavoritesList';
-import RecommendationsList from './components/RecommendationsList';
+import RecipeDetails from './components/RecipeDetails'; // Your details component
+import AddRecipeForm from './components/AddRecipeForm';
 
 function App() {
   return (
-    <div>
-      <h1>Recipe Sharing App</h1>
-      
-      <section>
-        <h2>All Recipes</h2>
-        <RecipeList />
-      </section>
-
-      <section>
-        <FavoritesList />
-      </section>
-
-      <section>
-        <RecommendationsList />
-      </section>
-    </div>
+    <Router>
+      <div>
+        <h1>Recipe Sharing App</h1>
+        <AddRecipeForm />
+        <Routes>
+          <Route path="/" element={<RecipeList />} />
+          <Route path="/recipes/:id" element={<RecipeDetails />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
