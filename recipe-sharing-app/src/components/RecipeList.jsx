@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import useRecipeStore from '../store/recipeStore';
 
 const RecipeList = () => {
@@ -6,7 +7,6 @@ const RecipeList = () => {
   const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
   const searchTerm = useRecipeStore((state) => state.searchTerm);
 
-  // If there is no search term or filteredRecipes is empty, show all recipes
   const displayedRecipes =
     searchTerm.trim() === '' || filteredRecipes.length === 0
       ? recipes
@@ -20,7 +20,9 @@ const RecipeList = () => {
     <div>
       {displayedRecipes.map((recipe) => (
         <div key={recipe.id} className="border p-4 mb-4 rounded shadow">
-          <h3 className="text-xl font-semibold">{recipe.title}</h3>
+          <Link to={`/recipes/${recipe.id}`} className="text-xl font-semibold text-blue-600 hover:underline">
+            {recipe.title}
+          </Link>
           <p>{recipe.description}</p>
         </div>
       ))}
