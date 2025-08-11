@@ -33,7 +33,7 @@ export default function AddRecipeForm() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-6 bg-white rounded shadow">
-      <div className="mb-4">
+      <div className="max-w-xl mx-auto p-6 md:p-10 bg-white rounded shadow">
         <label htmlFor="title" className="block font-semibold mb-1">Recipe Title</label>
         <input
           type="text"
