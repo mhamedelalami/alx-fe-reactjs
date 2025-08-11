@@ -11,7 +11,7 @@
       "50g Pecorino cheese",
       "Freshly ground black pepper"
     ],
-    "steps": [
+    "instructions": [
       "Cook the spaghetti in salted boiling water until al dente.",
       "Fry the pancetta until crispy.",
       "Beat the eggs with grated Pecorino cheese and pepper.",
@@ -32,7 +32,7 @@
       "400g canned tomatoes",
       "100ml cream"
     ],
-    "steps": [
+    "instructions": [
       "Marinate chicken in yogurt and tikka masala spice for 1 hour.",
       "Grill or pan-fry the chicken until cooked.",
       "Sauté chopped onions until soft.",

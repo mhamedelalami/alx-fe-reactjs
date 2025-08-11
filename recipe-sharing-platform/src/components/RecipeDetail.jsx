@@ -26,7 +26,7 @@ export default function RecipeDetail() {
     'Ingredient 2',
     'Ingredient 3',
   ];
-  const steps = recipe.steps || [
+  const instructions = recipe.instructions || [
     'Step 1: Do this',
     'Step 2: Do that',
     'Step 3: Finish up',
@@ -54,7 +54,7 @@ export default function RecipeDetail() {
       <section>
         <h2 className="text-2xl font-semibold mb-2">Cooking Instructions</h2>
         <ol className="list-decimal list-inside text-gray-700 space-y-1">
-          {steps.map((step, index) => (
+          {instructions.map((step, index) => (
             <li key={index}>{step}</li>
           ))}
         </ol>
