@@ -33,32 +33,32 @@ export default function RecipeDetail() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto p-8">
-      <Link to="/" className="text-blue-600 underline mb-6 inline-block">
-        &larr; Back to Home
-      </Link>
-      <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
-      <img
-        src={recipe.image}
-        alt={recipe.title}
-        className="w-full h-64 object-cover rounded-lg mb-6"
-      />
-      <section className="mb-6">
-        <h2 className="text-2xl font-semibold mb-2">Ingredients</h2>
-        <ul className="list-disc list-inside text-gray-700">
-          {ingredients.map((item, index) => (
-            <li key={index} className="mb-1">{item}</li>
-          ))}
-        </ul>
-      </section>
-      <section>
-        <h2 className="text-2xl font-semibold mb-2">Cooking Instructions</h2>
-        <ol className="list-decimal list-inside text-gray-700 space-y-1">
-          {instructions.map((step, index) => (
-            <li key={index}>{step}</li>
-          ))}
-        </ol>
-      </section>
-    </div>
-  );
+  <div className="max-w-4xl mx-auto p-8">
+    <Link to="/" className="text-blue-600 underline mb-6 inline-block">
+      &larr; Back to Home
+    </Link>
+    <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
+    <img
+      src={recipe.image}
+      alt={recipe.title}
+      className="w-full h-64 object-cover rounded-lg mb-6"
+    />
+    <section className="mb-6 bg-white rounded-lg shadow p-6">
+      <h2 className="text-2xl font-semibold mb-2">Ingredients</h2>
+      <ul className="list-disc list-inside text-gray-700">
+        {ingredients.map((item, index) => (
+          <li key={index} className="mb-1">{item}</li>
+        ))}
+      </ul>
+    </section>
+    <section className="bg-white rounded-lg shadow p-6">
+      <h2 className="text-2xl font-semibold mb-2">Cooking Instructions</h2>
+      <ol className="list-decimal list-inside text-gray-700 space-y-1">
+        {instructions.map((step, index) => (
+          <li key={index}>{step}</li>
+        ))}
+      </ol>
+    </section>
+  </div>
+);
 }
