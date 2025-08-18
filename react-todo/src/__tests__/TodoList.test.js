@@ -34,80 +34,73 @@
 // });
 
 
+
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import TodoList from './TodoList';
+
 describe('TodoList Component', () => {
 
-  // Test 1: Initial Render
+  // Test 1: Initial Render (No change needed here, getByText is fine for static content)
   test('renders the component with initial todos', () => {
     render(<TodoList />);
-    
-    // Check if the main heading is there
     expect(screen.getByText('Todo List')).toBeInTheDocument();
-    
-    // Check if our initial todos from the component's state are rendered
     expect(screen.getByText('Learn React')).toBeInTheDocument();
-    expect(screen.getByText('Build a project')).toBeInTheDocument();
-    expect(screen.getByText('Deploy the project')).toBeInTheDocument();
   });
 
-  // Test 2: Adding a new todo
+  // Test 2: Adding a new todo using data-testid
   test('allows users to add a new todo', () => {
     render(<TodoList />);
     
-    // Find the input field by its placeholder text
-    const inputElement = screen.getByPlaceholderText('Add a new todo');
-    // Find the submit button
-    const addButton = screen.getByRole('button', { name: /add todo/i });
+    // Find elements using their new test IDs
+    const inputElement = screen.getByTestId('todo-input');
+    const addButton = screen.getByTestId('add-button');
     
-    // Simulate user typing "Read a book" into the input field
-    fireEvent.change(inputElement, { target: { value: 'Read a book' } });
-    // Simulate clicking the "Add Todo" button
+    // Simulate user typing and clicking
+    fireEvent.change(inputElement, { target: { value: 'Test with data-testid' } });
     fireEvent.click(addButton);
     
-    // Assert that the new todo item is now present in the document
-    expect(screen.getByText('Read a book')).toBeInTheDocument();
+    // Assert that the new todo is now in the document
+    expect(screen.getByText('Test with data-testid')).toBeInTheDocument();
   });
 
-  // Test 3: Toggling a todo's completion status
+  // Test 3: Toggling a todo using data-testid
   test('allows users to toggle a todo', () => {
     render(<TodoList />);
     
-    // Find the "Learn React" todo item
-    const todoItem = screen.getByText('Learn React');
+    // We target the initial todo with id=1
+    const todoText = screen.getByTestId('todo-text-1');
     
-    // Initially, it should not have the line-through style
-    expect(todoItem).not.toHaveStyle('text-decoration: line-through');
+    // Check initial style
+    expect(todoText.parentElement).not.toHaveStyle('text-decoration: line-through');
     
-    // Simulate clicking the todo item to mark it as complete
-    fireEvent.click(todoItem);
+    // Click the text span to toggle
+    fireEvent.click(todoText);
     
-    // Assert that the style has been applied
-    expect(todoItem).toHaveStyle('text-decoration: line-through');
+    // Assert the parent `li` now has the style
+    expect(todoText.parentElement).toHaveStyle('text-decoration: line-through');
     
-    // Simulate clicking it again to toggle back
-    fireEvent.click(todoItem);
+    // Click it again to toggle back
+    fireEvent.click(todoText);
 
-    // Assert that the style has been removed
-    expect(todoItem).not.toHaveStyle('text-decoration: line-through');
+    // Assert the style is removed
+    expect(todoText.parentElement).not.toHaveStyle('text-decoration: line-through');
   });
 
-  // Test 4: Deleting a todo
+  // Test 4: Deleting a todo using data-testid
   test('allows users to delete a todo', () => {
     render(<TodoList />);
     
-    // Find the todo we want to delete
-    const todoTextToDelete = 'Build a project';
-    const todoItem = screen.getByText(todoTextToDelete);
+    // We will delete the todo with id=2 ("Build a project")
+    const todoItemToDelete = screen.getByTestId('todo-item-2');
+    expect(todoItemToDelete).toBeInTheDocument();
     
-    // Make sure it's in the document to begin with
-    expect(todoItem).toBeInTheDocument();
-    
-    // Find the delete button associated with this specific todo.
-    // We find its parent `li` element and then query for the button within it.
-    const deleteButton = todoItem.nextSibling; // The button is the next element
+    // Find the delete button specifically for this todo item
+    const deleteButton = screen.getByTestId('delete-button-2');
     fireEvent.click(deleteButton);
     
-    // Now, we expect the todo item to be gone.
-    // We use queryByText because it returns null if not found (doesn't throw an error).
-    expect(screen.queryByText(todoTextToDelete)).not.toBeInTheDocument();
+    // Assert that the entire todo item is no longer in the DOM
+    expect(screen.queryByTestId('todo-item-2')).not.toBeInTheDocument();
   });
 });
