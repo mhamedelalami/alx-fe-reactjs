@@ -4,72 +4,40 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
-.container {
-  background-color: #f5f5f5;
+.todo-container {
+  background: #f9f9f9;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.todo-list {
-  text-align: left;
-}
-
-.todo-list h1 {
+.todo-container h1 {
   color: #333;
   margin-bottom: 20px;
-  text-align: center;
 }
 
-.todo-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  margin: 8px 0;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.todo-content {
-  display: flex;
-  align-items: center;
-  flex: 1;
-}
-
-.todo-content input[type="checkbox"] {
-  margin-right: 8px;
-}
-
-.completed {
-  color: #888;
-  text-decoration: line-through;
-}
-
-form {
-  margin: 20px 0;
-}
-
-form div {
+.todo-container form {
+  margin-bottom: 20px;
   display: flex;
   gap: 10px;
+  justify-content: center;
 }
 
-form input {
+.todo-container input[type="text"] {
   flex: 1;
+  max-width: 300px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
 }
 
-form button {
+.todo-container button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
@@ -77,23 +45,61 @@ form button {
   font-size: 16px;
 }
 
-form button:hover {
-  background-color: #0056b3;
+.todo-container button:hover {
+  background: #0056b3;
 }
 
-.todo-stats {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #ddd;
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.todo-item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin: 10px 0;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.todo-text {
+  flex: 1;
+  text-align: left;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.todo-text:hover {
+  background: #f0f0f0;
+}
+
+.delete-button {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
   font-size: 14px;
-  color: #666;
+}
+
+.delete-button:hover {
+  background: #c82333;
+}
+
+.completed {
+  opacity: 0.7;
 }
 
 [data-testid="empty-message"] {
-  text-align: center;
-  color: #888;
+  color: #666;
   font-style: italic;
   padding: 20px;
+  text-align: center;
 }
