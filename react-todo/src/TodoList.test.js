@@ -33,12 +33,10 @@
 //   expect(screen.queryByText("Learn React")).toBeNull();
 // });
 
-
-
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import TodoList from "../components/TodoList"; // path to your component
+import TodoList from "./TodoList"; // path to your component
 
 // ✅ Test initial render
 test("renders initial todos", () => {
