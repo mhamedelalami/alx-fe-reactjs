@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import TodoList from "../TodoList"; // relative path from __tests__
+import TodoList from "../components/TodoList"; // adjust path if needed
 
 test("renders initial todos", () => {
   render(<TodoList />);
@@ -21,14 +21,16 @@ test("adds a new todo", () => {
 test("toggles todo completion", () => {
   render(<TodoList />);
   const todo = screen.getByText("Learn React");
+  // Initially not completed
   expect(todo).toHaveStyle("text-decoration: none");
   fireEvent.click(todo);
+  // After click, should be line-through
   expect(todo).toHaveStyle("text-decoration: line-through");
 });
 
 test("deletes a todo", () => {
   render(<TodoList />);
-  const deleteButton = screen.getAllByText("Delete")[0]; // first delete
+  const deleteButton = screen.getAllByText("Delete")[0]; // first delete button
   fireEvent.click(deleteButton);
   expect(screen.queryByText("Learn React")).toBeNull();
 });
