@@ -1,28 +1,25 @@
 import React, { useState } from "react";
 
-function TodoList() {
-  const [todos, setTodos] = useState([
-    { text: "Learn React", completed: false },
-    { text: "Build a Todo App", completed: false },
-  ]);
-  const [newTodo, setNewTodo] = useState("");
+export default function TodoList() {
+  const [todos, setTodos] = useState(["Learn React", "Build a Todo App"]);
+  const [input, setInput] = useState("");
 
-  // Add new todo
-  const handleAdd = () => {
-    if (newTodo.trim() === "") return;
-    setTodos([...todos, { text: newTodo, completed: false }]);
-    setNewTodo("");
+  const addTodo = () => {
+    if (input.trim()) {
+      setTodos([...todos, input.trim()]);
+      setInput("");
+    }
   };
 
-  // Toggle completed state
-  const handleToggle = (index) => {
-    const updatedTodos = [...todos];
-    updatedTodos[index].completed = !updatedTodos[index].completed;
-    setTodos(updatedTodos);
+  const toggleTodo = (index) => {
+    const newTodos = [...todos];
+    newTodos[index] = newTodos[index].startsWith("✔️")
+      ? newTodos[index].slice(2)
+      : "✔️" + newTodos[index];
+    setTodos(newTodos);
   };
 
-  // Delete todo
-  const handleDelete = (index) => {
+  const deleteTodo = (index) => {
     setTodos(todos.filter((_, i) => i !== index));
   };
 
@@ -31,22 +28,27 @@ function TodoList() {
       <h1>Todo List</h1>
       <input
         placeholder="Add a new todo"
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
       />
-      <button onClick={handleAdd}>Add</button>
+      <button onClick={addTodo}>Add</button>
       <ul>
         {todos.map((todo, index) => (
           <li
             key={index}
+            onClick={() => toggleTodo(index)}
             style={{
-              textDecoration: todo.completed ? "line-through" : "none",
+              textDecoration: todo.startsWith("✔️") ? "line-through" : "none",
               cursor: "pointer",
             }}
-            onClick={() => handleToggle(index)}
           >
-            {todo.text}
-            <button onClick={(e) => { e.stopPropagation(); handleDelete(index); }}>
+            {todo.replace("✔️", "")}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteTodo(index);
+              }}
+            >
               Delete
             </button>
           </li>
@@ -55,5 +57,3 @@ function TodoList() {
     </div>
   );
 }
-
-export default TodoList;
