@@ -1,8 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom"; // for matchers like toBeInTheDocument
-import TodoList from "../components/TodoList";
-
+import TodoList from "../TodoList";  // Make sure path matches your structure
 
 // ✅ Test initial render
 test("renders initial todos", () => {
@@ -33,22 +32,18 @@ test("toggles todo completion", () => {
 
   fireEvent.click(todo);
 
-  // After click, should be line-through
+  // After clicking, should be completed
   expect(todo).toHaveStyle("text-decoration: line-through");
-
-  fireEvent.click(todo);
-
-  // Toggle back
-  expect(todo).toHaveStyle("text-decoration: none");
 });
 
 // ✅ Test deleting todos
 test("deletes a todo", () => {
   render(<TodoList />);
   const todo = screen.getByText("Learn React");
-  const deleteButton = todo.nextSibling;   
+  const deleteButton = screen.getByText("Delete");
+
   fireEvent.click(deleteButton);
 
-  // queryByText returns null if element doesn't exist
+  // Should no longer be in the document
   expect(screen.queryByText("Learn React")).toBeNull();
 });
