@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import TodoList from "./components/TodoList"; // adjust path if needed
+import TodoList from "../components/TodoList"; // adjust path if needed
 
 // Test initial render
 test("renders initial todos", () => {
@@ -40,7 +40,7 @@ test("toggles todo completion", () => {
 test("deletes a todo", () => {
   render(<TodoList />);
   const todo = screen.getByText("Learn React");
-  const deleteButton = todo.parentElement.querySelector("button"); // get corresponding delete button
+  const deleteButton = screen.getByRole("button", { name: /delete/i });
 
   fireEvent.click(deleteButton);
 
