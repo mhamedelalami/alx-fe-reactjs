@@ -1,28 +1,29 @@
 import React, { useState } from "react";
 
-const TodoList = () => {
+function TodoList() {
   const [todos, setTodos] = useState([
-    { id: 1, text: "Learn React", completed: false },
-    { id: 2, text: "Build a Todo App", completed: false },
+    { text: "Learn React", completed: false },
+    { text: "Build a Todo App", completed: false },
   ]);
   const [newTodo, setNewTodo] = useState("");
 
-  const addTodo = () => {
-    if (!newTodo.trim()) return;
-    setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
+  // Add new todo
+  const handleAdd = () => {
+    if (newTodo.trim() === "") return;
+    setTodos([...todos, { text: newTodo, completed: false }]);
     setNewTodo("");
   };
 
-  const toggleTodo = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+  // Toggle completed state
+  const handleToggle = (index) => {
+    const updatedTodos = [...todos];
+    updatedTodos[index].completed = !updatedTodos[index].completed;
+    setTodos(updatedTodos);
   };
 
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  // Delete todo
+  const handleDelete = (index) => {
+    setTodos(todos.filter((_, i) => i !== index));
   };
 
   return (
@@ -33,24 +34,26 @@ const TodoList = () => {
         value={newTodo}
         onChange={(e) => setNewTodo(e.target.value)}
       />
-      <button onClick={addTodo}>Add</button>
+      <button onClick={handleAdd}>Add</button>
       <ul>
-        {todos.map((todo) => (
+        {todos.map((todo, index) => (
           <li
-            key={todo.id}
-            onClick={() => toggleTodo(todo.id)}
+            key={index}
             style={{
               textDecoration: todo.completed ? "line-through" : "none",
               cursor: "pointer",
             }}
+            onClick={() => handleToggle(index)}
           >
             {todo.text}
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+            <button onClick={(e) => { e.stopPropagation(); handleDelete(index); }}>
+              Delete
+            </button>
           </li>
         ))}
       </ul>
     </div>
   );
-};
+}
 
 export default TodoList;
