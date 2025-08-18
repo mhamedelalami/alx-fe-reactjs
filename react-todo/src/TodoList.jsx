@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 
 export default function TodoList() {
-  const [todos, setTodos] = useState(["Learn React", "Build a Todo App"]);
+  const [todos, setTodos] = useState([
+    { text: "Learn React", completed: false },
+    { text: "Build a Todo App", completed: false },
+  ]);
   const [input, setInput] = useState("");
 
   const addTodo = () => {
     if (input.trim()) {
-      setTodos([...todos, input.trim()]);
+      setTodos([...todos, { text: input.trim(), completed: false }]);
       setInput("");
     }
   };
 
   const toggleTodo = (index) => {
     const newTodos = [...todos];
-    newTodos[index] = newTodos[index].startsWith("✔️")
-      ? newTodos[index].slice(2)
-      : "✔️" + newTodos[index];
+    newTodos[index].completed = !newTodos[index].completed;
     setTodos(newTodos);
   };
 
@@ -38,11 +39,11 @@ export default function TodoList() {
             key={index}
             onClick={() => toggleTodo(index)}
             style={{
-              textDecoration: todo.startsWith("✔️") ? "line-through" : "none",
+              textDecoration: todo.completed ? "line-through" : "none",
               cursor: "pointer",
             }}
           >
-            {todo.replace("✔️", "")}
+            {todo.text}
             <button
               onClick={(e) => {
                 e.stopPropagation();
