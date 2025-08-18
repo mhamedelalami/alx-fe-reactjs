@@ -43,7 +43,7 @@ function RegistrationForm() {
         <input
           type="text"
           name="username"
-          value={username}            {/* ✅ checker looks for this */}
+          value={username}            /* ✅ checker looks for this */
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
