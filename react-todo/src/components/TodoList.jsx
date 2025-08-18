@@ -2,29 +2,27 @@ import React, { useState } from "react";
 
 const TodoList = () => {
   const [todos, setTodos] = useState([
-    { text: "Learn React", completed: false },
-    { text: "Build a Todo App", completed: false },
+    { id: 1, text: "Learn React", completed: false },
+    { id: 2, text: "Build a Todo App", completed: false },
   ]);
-
   const [newTodo, setNewTodo] = useState("");
 
   const addTodo = () => {
-    if (newTodo.trim() !== "") {
-      setTodos([...todos, { text: newTodo, completed: false }]);
-      setNewTodo("");
-    }
+    if (!newTodo.trim()) return;
+    setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
+    setNewTodo("");
   };
 
-  const toggleTodo = (index) => {
-    const updatedTodos = todos.map((todo, i) =>
-      i === index ? { ...todo, completed: !todo.completed } : todo
+  const toggleTodo = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
     );
-    setTodos(updatedTodos);
   };
 
-  const deleteTodo = (index) => {
-    const updatedTodos = todos.filter((_, i) => i !== index);
-    setTodos(updatedTodos);
+  const deleteTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
@@ -37,17 +35,17 @@ const TodoList = () => {
       />
       <button onClick={addTodo}>Add</button>
       <ul>
-        {todos.map((todo, index) => (
+        {todos.map((todo) => (
           <li
-            key={index}
-            onClick={() => toggleTodo(index)}
+            key={todo.id}
+            onClick={() => toggleTodo(todo.id)}
             style={{
               textDecoration: todo.completed ? "line-through" : "none",
               cursor: "pointer",
             }}
           >
             {todo.text}
-            <button onClick={() => deleteTodo(index)}>Delete</button>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
           </li>
         ))}
       </ul>
