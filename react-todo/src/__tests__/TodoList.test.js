@@ -1,12 +1,9 @@
-// src/__tests__/TodoList.test.js
-
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import TodoList from "../components/TodoList";
 
 describe("TodoList Component", () => {
-  // Test initial render
   test("renders initial todos", () => {
     render(<TodoList />);
     expect(screen.getByText("Learn React")).toBeInTheDocument();
@@ -14,30 +11,43 @@ describe("TodoList Component", () => {
     expect(screen.getByText("Deploy the project")).toBeInTheDocument();
   });
 
-  // Test adding a todo
   test("adds a new todo", () => {
     render(<TodoList />);
-    const input = screen.getByPlaceholderText("Add a new todo");
-    const addButton = screen.getByText("Add Todo");
+    const input = screen.getByTestId("todo-input");
+    const addButton = screen.getByTestId("add-button");
+
     fireEvent.change(input, { target: { value: "New Task" } });
     fireEvent.click(addButton);
+
     expect(screen.getByText("New Task")).toBeInTheDocument();
   });
 
-  // Test toggling a todo
   test("toggles todo completion", () => {
     render(<TodoList />);
+    
     const todoText = screen.getByText("Learn React");
-    expect(todoText).toHaveStyle("text-decoration: none");
+    const todoItem = todoText.closest("li"); // select the <li> which has the style
+
+    // initially not completed
+    expect(todoItem).toHaveStyle("text-decoration: none");
+
+    // toggle completion
     fireEvent.click(todoText);
-    expect(todoText).toHaveStyle("text-decoration: line-through");
+    expect(todoItem).toHaveStyle("text-decoration: line-through");
+
+    // toggle back
+    fireEvent.click(todoText);
+    expect(todoItem).toHaveStyle("text-decoration: none");
   });
 
-  // Test deleting a todo
   test("deletes a todo", () => {
     render(<TodoList />);
-    const deleteButton = screen.getByTestId(/delete-button-1/i);
+    
+    const todoText = screen.getByText("Learn React");
+    const deleteButton = screen.getByTestId(`delete-button-1`); // use id 1
+
     fireEvent.click(deleteButton);
+
     expect(screen.queryByText("Learn React")).toBeNull();
   });
 });
